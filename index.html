@@ -1,0 +1,221 @@
+<style>
+body {
+  background: #F8F8F8;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  text-align: center;
+  font-family: "Lato", sans-serif;
+  font-size: 25px;
+  line-height: 32px;
+  padding-top: 70px;
+}
+h1 a {
+  color: #66CCCC;
+}
+
+.price-table-wrapper {
+  font-family: "Lato", sans-serif;
+  text-align: center;
+  margin-top: 30px;
+}
+.price-table-wrapper .featured-table {
+  box-shadow: 0px 0px 19px -3px rgba(0, 0, 0, 0.36);
+}
+.price-table-wrapper .pricing-table {
+  display: inline-block;
+  border: 1px solid #C8C8C8;
+  border-radius: 10px;
+  background: white;
+  margin: 20px;
+  transition: all 0.3s ease-in-out;
+}
+.price-table-wrapper .pricing-table__header {
+  padding: 20px;
+  font-size: 20px;
+  color: #909090;
+  background: #E0E0E0;
+}
+.price-table-wrapper .pricing-table__price {
+  color: #66CCCC;
+  padding: 20px;
+  margin: auto;
+  font-size: 40px;
+  font-weight: 500;
+}
+.price-table-wrapper .pricing-table__button {
+  display: block;
+  background: #66CCCC;
+  text-decoration: none;
+  padding: 20px;
+  width: 90%;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  cursor:pointer;
+}
+.price-table-wrapper .pricing-table__button:before {
+  position: absolute;
+  left: -20%;
+  top: -10%;
+  content: "";
+  width: 60%;
+  height: 220%;
+  transform: rotate(-30deg);
+  background: white;
+  opacity: 0.3;
+  transition: all 0.3s ease-in-out;
+}
+.price-table-wrapper .pricing-table__button:after {
+  position: absolute;
+  content: ">";
+  top: 0;
+  right: 0;
+  font-size: 25px;
+  padding: 15px;
+  padding-right: 40px;
+  color: white;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+.price-table-wrapper .pricing-table__button:hover {
+  background: black;
+}
+.price-table-wrapper .pricing-table__list {
+  padding: 20px;
+  color: #A0A0A0;
+}
+.price-table-wrapper .pricing-table__list li {
+  padding: 15px;
+  border-bottom: 1px solid #C8C8C8;
+}
+.price-table-wrapper .pricing-table__list li:last-child {
+  border: none;
+}
+.price-table-wrapper .pricing-table:hover {
+  box-shadow: 0px 0px 19px -3px rgba(0, 0, 0, 0.36);
+}
+.price-table-wrapper .pricing-table:hover .pricing-table__button {
+  padding-left: 0;
+  padding-right: 35px;
+}
+.price-table-wrapper .pricing-table:hover .pricing-table__button:before {
+  top: -80%;
+  transform: rotate(0deg);
+  width: 100%;
+}
+.price-table-wrapper .pricing-table:hover .pricing-table__button:after {
+  opacity: 1;
+  padding-right: 15px;
+}
+</style>
+<script src="https://js.stripe.com/v3"></script>
+
+<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,100' rel='stylesheet' type='text/css'>
+
+<div class="price-table-wrapper">
+
+  <div class="pricing-table featured-table">
+    <h2 class="pricing-table__header">- NEAT's Bingo Extravaganza -</h2>
+    <h3 class="pricing-table__price">$5.00 ea.</h3>
+
+    <ul class="pricing-table__list" style="list-style-type:none;">
+        <li>Postal Code: <input type="text" id="postal"></li>
+        <li><label>Quantity:</label>
+          <select id="count" >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+          </select></li>
+          <li><input type="checkbox" id="age"> I confirm that I am 19+</li>
+
+    </ul>
+
+      <center><button
+      class="pricing-table__button"
+      id="checkout-button-price_1Hk1IKF0jkIT6KL6ToJGdHou"
+      role="link"
+      type="button"
+      action="submit" 
+    >
+      Buy Ticket!
+    </button></center>
+      <br><br>
+  </div>
+
+</div>
+<script>
+      
+    var howManyButton = document.getElementById('checkout-button-price_1Hk1IKF0jkIT6KL6ToJGdHou');
+        howManyButton.addEventListener('click', function () {
+        result = document.getElementById('count').value;
+        verify = document.getElementById('age').checked;
+        document.getElementById("postal").defaultValue = "null";
+        postal_code = document.getElementById('postal').value + "";
+  
+      });
+  </script>
+  <script>
+    
+  (function () {
+  
+    // define the stripe product and local variables.
+    var stripe = Stripe('pk_live_51HLCZuF0jkIT6KL6IkoHVtzw2cnG15j0uGRMLbpJaf4QVTDWZ5ojK5HFjW1Eg1vI0lvLWvu8Qu8B9A9lkku2Tgu3008uhzXePD');
+    var checkoutButton = document.getElementById('checkout-button-price_1Hk1IKF0jkIT6KL6ToJGdHou');
+  
+    // When the customer clicks on the button, redirect
+    // them to Checkout.
+    checkoutButton.addEventListener('click', function () {
+  
+      letter = postal_code.charAt(0).toUpperCase();
+      // If the 19+ box not checked, break out of async function, else complete checkout redirect
+      if(!verify){
+        return false;
+      }
+      else if(letter != 'V' ){
+        return false;
+      }
+      else{
+
+
+      stripe.redirectToCheckout({
+        lineItems: [{price: 'price_1Hk1IKF0jkIT6KL6ToJGdHou', quantity: parseInt(result)}],
+        mode: 'payment',
+  
+        successUrl: 'https://www.neat.ca',
+        cancelUrl: 'https://www.neat.ca',
+      })
+      
+      
+      .then(function (result) {
+        if (result.error) {
+          // If `redirectToCheckout` fails due to a browser or network
+          // error, display the localized error message to the customer.
+          var displayError = document.getElementById('error-message');
+          displayError.textContent = result.error.message;
+        }
+      });
+      }
+    });
+    
+  })();
+  </script>
+       
+<script src="" async defer></script>
